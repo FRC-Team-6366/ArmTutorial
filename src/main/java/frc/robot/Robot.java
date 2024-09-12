@@ -11,7 +11,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 
+
 // This code was modified by: Phoenix Gaffney
+//Adding Mr. Scott
 
 public class Robot extends TimedRobot {
   
