@@ -23,6 +23,8 @@ public class Robot extends TimedRobot {
 
   private XboxController controller; // Create a variable "controller" for the Xbox controller
 
+  public boolean setZeroFlag;
+
   @Override
   public void robotInit() {
 
@@ -55,10 +57,32 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    if (controller.getBButton()) {
+      while (!fwdLimitSwitch.isPressed()){
+        armMotor.set(0.05);
+      }
+      armMotor.getEncoder().setPosition(0);
+    }
+
+    // if (!fwdLimitSwitch.isPressed() && setZeroFlag) {
+    //   armMotor.getEncoder().setPosition(0);
+    //   setZeroFlag = false;
+    // }
+
+    if (controller.getAButton()) {
+      while (armMotor.getEncoder().getPosition() > -2.7 || armMotor.getEncoder().getPosition() < -2.8) {
+        if (armMotor.getEncoder().getPosition() > -2.7) {
+          armMotor.set(-0.05);
+        }
+        else if (armMotor.getEncoder().getPosition() < -2.8) {
+          armMotor.set(0.05);
+        }
+      }
+    }
+    
     double joystick = controller.getLeftY(); // Create local variable "joystick" which gets the value of the controller's left joystick Y axis (-1.0 to +1.0)
     joystick *= -0.12; // Scale joystick value to 10%
     armMotor.set(joystick); // Set motor speed to the joystick value
-
   }
 
   @Override
