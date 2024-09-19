@@ -26,14 +26,17 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    armMotor = new CANSparkMax(0, MotorType.kBrushless); // Store an instance of CANSparkMax in the armMotor variable
+    armMotor = new CANSparkMax(1, MotorType.kBrushless); // Store an instance of CANSparkMax in the armMotor variable
     armMotor.restoreFactoryDefaults(); // Restore motor to factory defaults to avoid runaway robots
-    fwdLimitSwitch = armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen); // Get the fwd limit switch from the motor and store it
-    revLimitSwitch = armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed); // Same for the reverse limit switch
+    fwdLimitSwitch = armMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed); // Get the fwd limit switch from the motor and store it
+    revLimitSwitch = armMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen); // Same for the reverse limit switch
 
     // Enable the limit switches
     fwdLimitSwitch.enableLimitSwitch(true);
-    revLimitSwitch.enableLimitSwitch(false);
+    revLimitSwitch.enableLimitSwitch(true);
+
+    controller = new XboxController(0);
+
 
   }
 
@@ -53,7 +56,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     double joystick = controller.getLeftY(); // Create local variable "joystick" which gets the value of the controller's left joystick Y axis (-1.0 to +1.0)
-    joystick *= 0.2; // Scale joystick value to 20%
+    joystick *= -0.12; // Scale joystick value to 10%
     armMotor.set(joystick); // Set motor speed to the joystick value
 
   }
